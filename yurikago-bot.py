@@ -1,44 +1,118 @@
-@bot.tree.command(name="graduated_timer", description="graduated_timer command")
-@app_commands.describe(minutes="何分", seconds="何秒",user="タイマー終了時に通知するユーザー")
-async def graduated_timer_cmd(
-    interaction: discord.Interaction,
-    minutes: int,
-    seconds: int,
-    user: discord.Member
-):
+# Easy Discord Bot Builderによって作成されました！ 製作：@himais0giiiin
+# Created with Easy Discord Bot Builder! created by @himais0giiiin!
+# Optimized Version
+
+import discord
+from discord import app_commands
+from discord.ext import commands
+import os
+from discord import ui
+import asyncio
+import math
+
+intents = discord.Intents.default()
+intents.message_content = True
+intents.members = True
+intents.voice_states = True
+
+# Botの作成
+bot = commands.Bot(command_prefix='!', intents=intents)
+
+# ----------------------------
+
+# --- ユーザー作成部分 ---
+
+class EasyModal(discord.ui.Modal):
+    def __init__(self, title, custom_id, inputs):
+        super().__init__(title = title, timeout = None, custom_id = custom_id)
+        for item in inputs:
+            self.add_item(discord.ui.TextInput(label = item['label'], custom_id = item['id']))
+
+import math
+from numbers import Number
+
+_E4_BD_95_E5_88_86 = None
+_E4_BD_95_E7_A7_92 = None
+
+
+
+@bot.tree.command(name="timer", description="timer command")
+async def timer_cmd(interaction: discord.Interaction):
     ctx = interaction
+    user = interaction.user
+    
+    if isinstance(ctx, discord.Interaction):
+        await ctx.response.send_modal(EasyModal(title="設定", custom_id="timer", inputs=[{"label": "何秒", "id": "input_0"}, {"label": "誰？", "id": "input_1"}]))
 
-    remain_min = minutes
-    remain_sec = seconds
 
-    # 最初のメッセージ（必ず response.send_message で1回だけ出す）
-    if remain_min == 0:
-        msg = f"残り時間:\n# {remain_sec}秒"
+async def on_modal_timer(interaction):
+    ctx = interaction
+    user = interaction.user
+    await interaction.response.defer()
+    _E4_BD_95_E5_88_86 = interaction.data['components'][0]['components'][0]['value']
+    _E4_BD_95_E7_A7_92 = _E4_BD_95_E5_88_86 - 60 * math.floor(_E4_BD_95_E5_88_86 / 60)
+    _E4_BD_95_E5_88_86 = math.floor(_E4_BD_95_E5_88_86 / 60)
+    if _E4_BD_95_E5_88_86 == 0:
+        
+        if 'ctx' in locals():
+            if isinstance(ctx, discord.Interaction):
+                if ctx.response.is_done():
+                    await ctx.followup.send(content=''.join([str(x) for x in ['残り時間:\\n', '# ', _E4_BD_95_E7_A7_92, '秒']]), ephemeral=False)
+                else:
+                    await ctx.response.send_message(content=''.join([str(x) for x in ['残り時間:\\n', '# ', _E4_BD_95_E7_A7_92, '秒']]), ephemeral=False)
+            elif isinstance(ctx, commands.Context):
+                await ctx.send(content=''.join([str(x) for x in ['残り時間:\\n', '# ', _E4_BD_95_E7_A7_92, '秒']]))
+            elif isinstance(ctx, discord.Message):
+                await ctx.reply(content=''.join([str(x) for x in ['残り時間:\\n', '# ', _E4_BD_95_E7_A7_92, '秒']]))
     else:
-        msg = f"残り時間:\n# {remain_min}分 {remain_sec}秒"
-
-    await ctx.response.send_message(content=msg)
-
+        
+        if 'ctx' in locals():
+            if isinstance(ctx, discord.Interaction):
+                if ctx.response.is_done():
+                    await ctx.followup.send(content=''.join([str(x2) for x2 in ['残り時間:\\n', '# ', _E4_BD_95_E5_88_86, '分 ', _E4_BD_95_E7_A7_92, '秒']]), ephemeral=False)
+                else:
+                    await ctx.response.send_message(content=''.join([str(x2) for x2 in ['残り時間:\\n', '# ', _E4_BD_95_E5_88_86, '分 ', _E4_BD_95_E7_A7_92, '秒']]), ephemeral=False)
+            elif isinstance(ctx, commands.Context):
+                await ctx.send(content=''.join([str(x2) for x2 in ['残り時間:\\n', '# ', _E4_BD_95_E5_88_86, '分 ', _E4_BD_95_E7_A7_92, '秒']]))
+            elif isinstance(ctx, discord.Message):
+                await ctx.reply(content=''.join([str(x2) for x2 in ['残り時間:\\n', '# ', _E4_BD_95_E5_88_86, '分 ', _E4_BD_95_E7_A7_92, '秒']]))
     await asyncio.sleep(1)
-
-    while not (remain_sec == 0 and remain_min == 0):
-        if remain_min == 0:
-            msg = f"残り時間:\n# {remain_sec}秒"
+    while not (_E4_BD_95_E7_A7_92 == 0 and _E4_BD_95_E5_88_86 == 0):
+        if _E4_BD_95_E5_88_86 == 0:
+            
+            if 'ctx' in locals() and isinstance(ctx, discord.Interaction):
+                await ctx.edit_original_response(content=''.join([str(x3) for x3 in ['残り時間:\\n', '# ', _E4_BD_95_E7_A7_92, '秒']]))
         else:
-            msg = f"残り時間:\n# {remain_min}分 {remain_sec}秒"
-
-        await ctx.edit_original_response(content=msg)
-
-        if remain_sec == 0:
-            remain_min -= 1
-            remain_sec = 59
+            
+            if 'ctx' in locals() and isinstance(ctx, discord.Interaction):
+                await ctx.edit_original_response(content=''.join([str(x4) for x4 in ['残り時間:\\n', '# ', _E4_BD_95_E5_88_86, '分 ', _E4_BD_95_E7_A7_92, '秒']]))
+        if _E4_BD_95_E7_A7_92 == 0:
+            _E4_BD_95_E5_88_86 = (_E4_BD_95_E5_88_86 if isinstance(_E4_BD_95_E5_88_86, Number) else 0) + -1
+            _E4_BD_95_E7_A7_92 = 59
         else:
-            remain_sec -= 1
-
+            _E4_BD_95_E7_A7_92 = (_E4_BD_95_E7_A7_92 if isinstance(_E4_BD_95_E7_A7_92, Number) else 0) + -1
         await asyncio.sleep(1)
+    
+    if 'ctx' in locals() and isinstance(ctx, discord.Interaction):
+        await ctx.edit_original_response(content='終了しました。')
+    
+    _ch_id = int((ctx.channel.id if "ctx" in locals() and hasattr(ctx, "channel") else "Unknown")) if str((ctx.channel.id if "ctx" in locals() and hasattr(ctx, "channel") else "Unknown")).isdigit() else 0
+    _channel = bot.get_channel(_ch_id)
+    if _channel:
+        await _channel.send(content=str(interaction.data['components'][0]['components'][1]['value']) + '\\n終了です！')
 
-    await ctx.edit_original_response(content="終了しました。")
+# --------------------------
 
-    ch = interaction.channel
-    if ch is not None:
-        await ch.send(f"{user.mention}\n終了です！")
+if __name__ == "__main__":
+    # トークンの設定
+    # Set your token here
+    token = "TOKEN"
+
+    # Token check
+    token = os.getenv("DISCORD_TOKEN", token) # 環境変数DISCORD_TOKENがあればそちらを優先 (If DISCORD_TOKEN environment variable is set, it will be used)
+    if token == "TOKEN":
+        print('\x1b[31m!!!!注意!!!! トークンを設定していない場合は、環境変数DISCORD_TOKENを設定するか、上のtoken変数を書き換えてください。\x1b[0m')
+        print('\x1b[31m!!!!Warning!!!! If you have not set a token, please set the DISCORD_TOKEN environment variable or replace the token variable above.\x1b[0m')
+        exit(1)
+
+    bot.run(token)
