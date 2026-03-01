@@ -1,5 +1,5 @@
 @bot.tree.command(name="graduated_timer", description="graduated_timer command")
-@app_commands.describe(minutes="何分", seconds="何秒")
+@app_commands.describe(minutes="何分", seconds="何秒",user="タイマー終了時に通知するユーザー")
 async def graduated_timer_cmd(
     interaction: discord.Interaction,
     minutes: int,
