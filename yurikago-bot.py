@@ -28,6 +28,7 @@ _E4_BD_95_E7_A7_92 = None
 
 
 @bot.tree.command(name="graduated_timer", description="graduated_timer command")
+@app_commands.describe(minutes="何分", seconds="何秒")
 async def graduated_timer_cmd(interaction: discord.Interaction):
     ctx = interaction
     user = interaction.user
