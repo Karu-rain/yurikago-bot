@@ -81,7 +81,7 @@ async def graduated_timer_cmd(interaction: discord.Interaction, minutes: int, se
     _ch_id = int((ctx.channel.id if "ctx" in locals() and hasattr(ctx, "channel") else "Unknown")) if str((ctx.channel.id if "ctx" in locals() and hasattr(ctx, "channel") else "Unknown")).isdigit() else 0
     _channel = bot.get_channel(_ch_id)
     if _channel:
-        await _channel.send(content=str(# Argument 'ユーザー' needed) + '\\n終了です！')
+        await _channel.send(content=str(f"{user.mention}\n終了です！"))
 
 # --------------------------
 
